@@ -1,35 +1,28 @@
+from stats import letter_frequency
+import sys
+
 def count_words(str):
     return len(str.split())
 
-def letter_frequency(str):
-
-    lowercase = str.lower()
-    
-    frequency = {}
-
-    for letter in lowercase:
-        if letter.isalpha():
-            if letter in frequency:
-                frequency[letter] += 1
-            else:
-                frequency[letter] = 1
-    
-    return frequency
-
 def main():
-    book_name = "books/frankenstein.txt"
+    if len(sys.argv) != 2:
+        print("Usage: python3 main.py <path_to_book>")
+        sys.exit(1)
+    book_name = sys.argv[1]
     with open(book_name) as f:
         file_contents = f.read()
-        print(f"--- Begin report of {book_name} ---")
+        print(f"============ BOOKBOT ============")
         print()
-        print(f"{count_words(file_contents)} words found in this document")
+        print(f"Analyzing book found at {book_name}")
+        print()
+        print(f"Found {count_words(file_contents)} total words")
 
         frequencies = letter_frequency(file_contents)
 
         sorted_frequencies = sorted(frequencies.items(), key=lambda item: item[1], reverse=True)
 
         for letter, frequency in sorted_frequencies:
-            print(f"The letter '{letter}' was found {frequency} times") 
+            print(f"{letter}: {frequency}") 
         
         print("--- End report ---")
 
